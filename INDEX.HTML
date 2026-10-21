@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#635bff">
+  <meta name="description" content="StudySprint AI helps students plan study sessions, track tasks, and build consistent study habits.">
+  <title>StudySprint AI | Study Smarter</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand-icon">S</span>
+      <span>StudySprint <span class="brand-ai">AI</span></span>
+    </a>
+    <div class="header-actions">
+      <span class="date-label" id="todayDate"></span>
+      <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">YOUR PERSONAL STUDY SPACE</p>
+        <h1>Small steps. <span>Big progress.</span></h1>
+        <p class="muted">Stay consistent, one study session at a time.</p>
+      </div>
+      <div class="welcome-badge">🎯 Focus on progress, not perfection.</div>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat-card">
+        <span class="stat-icon purple">📚</span>
+        <p>Today's tasks</p>
+        <h2 id="taskCount">0</h2>
+        <small>Total study tasks</small>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon green">✓</span>
+        <p>Completed</p>
+        <h2 id="completedCount">0</h2>
+        <small>Tasks finished</small>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon orange">⏱</span>
+        <p>Focus time</p>
+        <h2 id="focusTime">0 min</h2>
+        <small>Completed focus sessions</small>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon pink">🔥</span>
+        <p>Daily progress</p>
+        <h2 id="progressPercent">0%</h2>
+        <small>Tasks completed</small>
+      </article>
+    </section>
+
+    <section class="content-grid">
+      <div class="main-column">
+        <article class="panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">STAY ORGANIZED</p>
+              <h2>My Study Tasks</h2>
+            </div>
+            <span class="pill" id="taskPill">0 tasks</span>
+          </div>
+
+          <form id="taskForm" class="task-form">
+            <label class="sr-only" for="taskInput">Task name</label>
+            <input id="taskInput" type="text" placeholder="What do you need to study?" maxlength="120" required>
+            <label class="sr-only" for="subjectInput">Subject</label>
+            <select id="subjectInput">
+              <option>Computer Science</option>
+              <option>Mathematics</option>
+              <option>English</option>
+              <option>Physics</option>
+              <option>Other</option>
+            </select>
+            <button class="primary-btn" type="submit">+ Add Task</button>
+          </form>
+
+          <div class="filter-row">
+            <button class="filter active" data-filter="all">All</button>
+            <button class="filter" data-filter="pending">Pending</button>
+            <button class="filter" data-filter="completed">Completed</button>
+          </div>
+
+          <ul id="taskList" class="task-list"></ul>
+          <p id="emptyTasks" class="empty-state">Your study list is clear. Add your first task!</p>
+        </article>
+
+        <article class="panel planner-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">YOUR DAILY ROADMAP</p>
+              <h2>AI Study Planner</h2>
+            </div>
+            <span class="ai-badge">✦ SMART PLAN</span>
+          </div>
+          <p class="muted">Create a simple study schedule based on your available time.</p>
+
+          <form id="plannerForm" class="planner-form">
+            <div class="form-group">
+              <label for="studyHours">Available study time (hours)</label>
+              <input id="studyHours" type="number" min="1" max="12" value="3" required>
+            </div>
+            <div class="form-group">
+              <label for="studyGoal">Main goal</label>
+              <select id="studyGoal">
+                <option value="revision">Revise what I learned</option>
+                <option value="exam">Prepare for an exam</option>
+                <option value="assignment">Finish an assignment</option>
+                <option value="learning">Learn a new topic</option>
+              </select>
+            </div>
+            <button class="primary-btn full-width" type="submit">✦ Generate Study Plan</button>
+          </form>
+
+          <div id="planOutput" class="plan-output" aria-live="polite">
+            <p class="empty-state">Your personalized study plan will appear here.</p>
+          </div>
+        </article>
+      </div>
+
+      <aside class="side-column">
+        <article class="panel timer-panel">
+          <p class="eyebrow">WORK WITH FOCUS</p>
+          <h2>Focus Timer</h2>
+          <p class="muted">Focus on one thing at a time.</p>
+
+          <div class="timer-tabs">
+            <button class="timer-tab active" data-minutes="25">Focus</button>
+            <button class="timer-tab" data-minutes="5">Short break</button>
+            <button class="timer-tab" data-minutes="15">Long break</button>
+          </div>
+
+          <div class="timer-circle">
+            <svg viewBox="0 0 220 220" aria-hidden="true">
+              <circle class="timer-track" cx="110" cy="110" r="96"></circle>
+              <circle class="timer-progress" id="timerProgress" cx="110" cy="110" r="96"></circle>
+            </svg>
+            <div class="timer-center">
+              <span id="timerDisplay">25:00</span>
+              <small id="timerLabel">READY TO FOCUS</small>
+            </div>
+          </div>
+
+          <div class="timer-actions">
+            <button id="startTimer" class="primary-btn">▶ Start</button>
+            <button id="resetTimer" class="secondary-btn">↻ Reset</button>
+          </div>
+          <p class="timer-note">💡 Put your phone away and take breaks.</p>
+        </article>
+
+        <article class="panel progress-panel">
+          <p class="eyebrow">KEEP GOING</p>
+          <h2>Your Progress</h2>
+          <div class="progress-label">
+            <span>Task completion</span>
+            <strong id="progressLabel">0%</strong>
+          </div>
+          <div class="progress-track">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          <p id="progressMessage" class="muted">Every small step counts.</p>
+        </article>
+
+        <article class="quote-card">
+          <span class="quote-mark">“</span>
+          <p>Success is the sum of small efforts, repeated day in and day out.</p>
+          <small>— Robert Collier</small>
+        </article>
+      </aside>
+    </section>
+
+    <footer>
+      <p>StudySprint AI · Built for better study habits.</p>
+      <p>Learn a little. Improve a lot.</p>
+    </footer>
+  </main>
+</body>
+</html>
